@@ -18,3 +18,11 @@ function allinpath(root,callback,prefix=[]){
         allinpath(i.index,callback,nprefix)
     }
 }
+
+function load(id){
+    document.getElementById("name").textContent=mockups[id].name
+}
+
+document.getElementById("entityid").addEventListener("input",e=>{
+    load(+e.target.value)
+})
