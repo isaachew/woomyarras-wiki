@@ -35,11 +35,16 @@ function load(id){
     }
 
     document.getElementById("upgradesfrom").textContent=""
-    for(var branch of tankpaths[id].upgradesfrom){
-        let divw=document.createElement("div")
-        divw.textContent=mockups[branch].name
-        divw.className="tank"
-        divw.addEventListener("click",(ind=>a=>load(ind))(branch))
+    if(tankpaths[id].upgradesfrom){
+            for(var branch of tankpaths[id].upgradesfrom){
+            let divw=document.createElement("div")
+            divw.textContent=mockups[branch].name
+            divw.className="tank"
+            divw.addEventListener("click",(ind=>a=>load(ind))(branch))
+
+            document.getElementById("upgradesfrom").append(divw)
+        }
+    }
 
         document.getElementById("upgradesfrom").append(divw)
     }
