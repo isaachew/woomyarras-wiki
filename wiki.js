@@ -46,7 +46,12 @@ function load(id){
         }
     }
 
-        document.getElementById("upgradesfrom").append(divw)
+    let stats=document.getElementById("stats")
+    stats.innerHTML=""
+    for(let stat in mockups[id].body){
+        let el=document.createElement("div")
+        el.textContent=stat+": "+mockups[id].body[stat]
+        stats.append(el)
     }
 }
 
