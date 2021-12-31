@@ -1,4 +1,5 @@
 let mockups=[]
+let servers=[]
 let roottank
 let tanks=new Set()
 let tankpaths={}
@@ -9,17 +10,19 @@ function allinpath(root,callback,prefix=[]){
     }
 }
 
+fetch("https://6ibui.glitch.me/serverData").then(a=>a.json()).then(a=>{//get servers
+    servers=a
+    fetch("https://"+servers.servers[0].connectionInfo.ip+"/mockups.json").then(a=>a.json()).then(a=>{
+        mockups=a
 
-fetch("https://womy-aras.herokuapp.com/mockups.json").then(a=>a.json()).then(a=>{
-    mockups=a
-
-    roottank=mockups.findIndex(a=>a.name=="Basic")
-    allinpath(roottank,(a,b)=>{
-        tankpaths[a]??={paths:[],upgradesfrom:new Set}
-        tankpaths[a].paths.push(b)
-        if(b.length)tankpaths[a].upgradesfrom.add(b[b.length-1])
+        roottank=mockups.findIndex(a=>a.name=="Basic")
+        allinpath(roottank,(a,b)=>{
+            tankpaths[a]??={paths:[],upgradesfrom:new Set}
+            tankpaths[a].paths.push(b)
+            if(b.length)tankpaths[a].upgradesfrom.add(b[b.length-1])
+        })
+        load(roottank)
     })
-    load(roottank)
 })
 
 function load(id){
@@ -35,7 +38,7 @@ function load(id){
     }
 
     document.getElementById("upgradesfrom").textContent=""
-    if(tankpaths[id].upgradesfrom){
+    if(tankpaths[id]){
             for(var branch of tankpaths[id].upgradesfrom){
             let divw=document.createElement("div")
             divw.textContent=mockups[branch].name
